@@ -1,6 +1,5 @@
 # MK_Shop
-Created by Nongyao Sornjapo
-
+Created by kikoforst781
 ## Project setup
 ```
 npm install
