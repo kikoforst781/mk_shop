@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 24, 2025 at 07:34 PM
+-- Generation Time: Oct 24, 2025 at 08:00 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.1.12
 
@@ -39,6 +39,29 @@ CREATE TABLE `admin` (
 
 INSERT INTO `admin` (`id`, `username`, `password`) VALUES
 (1, 'admin', '1234');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `category_id` int(11) NOT NULL,
+  `category_name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`category_id`, `category_name`, `description`, `created_at`) VALUES
+(1, 'เครื่องดื่ม', 'เครื่องดื่มทุกประเภท', '2025-10-24 17:40:00'),
+(2, 'ผัก', 'อาหารประเภทผัก', '2025-10-24 17:40:00'),
+(3, 'ชุดเนื้อ', 'เนื้อเพิ่มเติม', '2025-10-24 17:40:00'),
+(4, 'ชาบู', 'อาหารประเภทซุปและต้ม', '2025-10-24 17:40:00');
 
 -- --------------------------------------------------------
 
@@ -103,7 +126,8 @@ INSERT INTO `orders` (`id`, `table_no`, `total_price`, `order_date`, `status`) V
 (28, '2', '0.00', '2025-10-23 08:52:04', 'เสร็จแล้ว'),
 (29, '1', '0.00', '2025-10-23 09:35:12', 'เสร็จแล้ว'),
 (30, '4', '0.00', '2025-10-23 10:07:16', 'เสร็จแล้ว'),
-(31, '1', '0.00', '2025-10-24 09:43:53', 'รอดำเนินการ');
+(31, '1', '0.00', '2025-10-24 09:43:53', 'รอดำเนินการ'),
+(32, '2', '0.00', '2025-10-24 10:56:33', 'เสร็จแล้ว');
 
 -- --------------------------------------------------------
 
@@ -164,7 +188,8 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, 
 (66, 29, 14, 2, '299.00', '598.00', 'เสร็จแล้ว'),
 (67, 30, 8, 2, '280.00', '560.00', 'เสร็จแล้ว'),
 (68, 30, 9, 2, '250.00', '500.00', 'เสร็จแล้ว'),
-(71, 31, 9, 1, '250.00', '250.00', 'รอดำเนินการ');
+(71, 31, 9, 1, '250.00', '250.00', 'รอดำเนินการ'),
+(72, 32, 27, 1, '80.00', '80.00', 'เสร็จแล้ว');
 
 -- --------------------------------------------------------
 
@@ -174,6 +199,7 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `quantity`, `price`, 
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
   `product_name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
@@ -186,16 +212,18 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `image`, `stock`, `created_at`) VALUES
-(8, 'ชุดผักรวม ชื่นใจ', 'ชุดผักรวมและหมู ชื่นใจ', '280.00', '1761182155_1761180238_3.jfif', 20, '2025-09-11 03:36:39'),
-(9, 'หมูเนื้อแดงรวมผัก', 'ชุด 1 หมูเนื้อแดงรวมผักสด', '250.00', '1761182114_1758077855_p5.jpg', 50, '2025-09-17 02:57:35'),
-(10, 'ชุด 2 ลูกชิ้น + หมูสามชั้น', 'ชุด 2 ลูกชิ้น + หมูสามชั้น', '199.00', '1761182102_1760498908_p6.jpg', 20, '2025-09-17 02:58:35'),
-(11, 'สันคอหมูรวมผัก', 'ชุด 3 สันคอหมูรวมผัก', '220.00', '1761182089_1760589547_p1.jpg', 20, '2025-09-17 02:59:44'),
-(12, 'ชุดรวมมิตร MK', 'ชุดรวมมิตร MK ฉ่ำ ๆ', '299.00', '1761182063_3.jfif', 20, '2025-09-17 04:08:58'),
-(13, 'ชาบูน้ำดำ หมู ผักสด', 'ชุด 5 ชาบูน้ำดำ หมู ผักสด', '250.00', '1761182047_1761180305_2.jfif', 20, '2025-09-17 04:15:07'),
-(14, 'ชุดรวมมิตรชาบู', 'รวมมิตร หมู ลูกชิ้น ผักสด', '299.00', '1761182034_1758077915_p6.jpg', 20, '2025-09-18 07:33:32'),
-(15, 'สันคอหมูล้วน', 'สันคอหมูล้วน เกาหลี', '220.00', '1761182020_7.jfif', 20, '2025-09-18 07:42:25'),
-(17, 'ชุดรวมหมู่ชาบู', 'ชุดรวมหมู่ชาบู หมูเนื้อแดง ผักรวม', '299.00', '1761182011_1760511137_p7.jpg', 30, '2025-10-15 03:18:12');
+INSERT INTO `products` (`product_id`, `category_id`, `product_name`, `description`, `price`, `image`, `stock`, `created_at`) VALUES
+(8, 2, 'ชุดผักรวม ชื่นใจ', 'ชุดผักรวมและหมู ชื่นใจ', '280.00', '1761182155_1761180238_3.jfif', 20, '2025-09-11 03:36:39'),
+(9, 4, 'หมูเนื้อแดงรวมผัก', 'ชุด 1 หมูเนื้อแดงรวมผักสด', '250.00', '1761182114_1758077855_p5.jpg', 50, '2025-09-17 02:57:35'),
+(10, 3, 'ชุด 2 ลูกชิ้น + หมูสามชั้น', 'ชุด 2 ลูกชิ้น + หมูสามชั้น', '199.00', '1761182102_1760498908_p6.jpg', 20, '2025-09-17 02:58:35'),
+(11, 4, 'สันคอหมูรวมผัก', 'ชุด 3 สันคอหมูรวมผัก', '220.00', '1761182089_1760589547_p1.jpg', 20, '2025-09-17 02:59:44'),
+(12, 4, 'ชุดรวมมิตร MK', 'ชุดรวมมิตร MK ฉ่ำ ๆ', '299.00', '1761182063_3.jfif', 20, '2025-09-17 04:08:58'),
+(13, 4, 'ชาบูน้ำดำ หมู ผักสด', 'ชุด 5 ชาบูน้ำดำ หมู ผักสด', '250.00', '1761182047_1761180305_2.jfif', 20, '2025-09-17 04:15:07'),
+(14, 4, 'ชุดรวมมิตรชาบู', 'รวมมิตร หมู ลูกชิ้น ผักสด', '299.00', '1761182034_1758077915_p6.jpg', 20, '2025-09-18 07:33:32'),
+(15, 3, 'สันคอหมูล้วน', 'สันคอหมูล้วน เกาหลี', '220.00', '1761182020_7.jfif', 20, '2025-09-18 07:42:25'),
+(17, 4, 'ชุดรวมหมู่ชาบู', 'ชุดรวมหมู่ชาบู หมูเนื้อแดง ผักรวม', '299.00', '1761182011_1760511137_p7.jpg', 30, '2025-10-15 03:18:12'),
+(27, 1, 'น้ำผลไม้วัยรุ่น', '789', '80.00', '1761328572_501772979_122121318422807563_6724921650019004998_n.jpg', 2, '2025-10-24 17:56:12'),
+(28, 1, 'น้ำผลไม้วัยรุ่นแอปเปิ้ล', '', '80.00', '1761328811_500058024_122121318314807563_8153641553671998444_n.jpg', 1, '2025-10-24 18:00:11');
 
 --
 -- Indexes for dumped tables
@@ -207,6 +235,12 @@ INSERT INTO `products` (`product_id`, `product_name`, `description`, `price`, `i
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`category_id`);
 
 --
 -- Indexes for table `employees`
@@ -233,7 +267,8 @@ ALTER TABLE `order_items`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `idx_category` (`category_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -246,6 +281,12 @@ ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
@@ -255,19 +296,19 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -279,6 +320,12 @@ ALTER TABLE `products`
 ALTER TABLE `order_items`
   ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
